@@ -54,7 +54,7 @@ $( "input#uploadedFilenameDecomp" ).change(function() {
     });
 
     alert(times);
-    handleAuthClick(event);
+   
 
   });
 
@@ -139,10 +139,7 @@ $( "input#uploadedFilenameDecomp" ).change(function() {
         'recurrence': [
           'RRULE:FREQ=DAILY;COUNT=2'
         ],
-        'attendees': [
-          {'email': 'lpage@example.com'},
-          {'email': 'sbrin@example.com'}
-        ],
+        
         'reminders': {
           'useDefault': false,
           'overrides': [
@@ -152,10 +149,10 @@ $( "input#uploadedFilenameDecomp" ).change(function() {
         }
       };
 
-var request = gapi.client.calendar.events.insert({
-  'calendarId': 'primary',
-  'resource': event
-});
+      var request = gapi.client.calendar.events.insert({
+        'calendarId': 'primary',
+        'resource': event
+      });
 
 request.execute(function(event) {
   appendPre('Event created: ' + event.htmlLink);

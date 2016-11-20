@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+   <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+    </script>
 
 <body>
 
@@ -56,17 +58,19 @@
       <input type="file"  name="uploadedFilename" id="uploadedFilename" style="visibility: hidden; display: none;">
     <br>
 
-      <input type="submit" class="btn btn-primary" id="submitbtn" value="Compress File" style="margin-top:5%">
-         
-      <br>
-      <span id="uploadStatus"></span>
-      <br>
-    </form>
-    <div id="authorize-div" style="display: none">
+      <input type="submit" class="btn btn-primary" id="submitbtn" value="Get Calendar" style="margin-top:5%" onclick="handleAuthClick(event)">
+         <div id="authorize-div" style="display: none">
+
       <span>Authorize access to Google Calendar API</span>
       <!--Button for the user to click to initiate auth sequence -->
     </div>
+    <br>
+    <br>
+    <br>
     <pre id="output"></pre>
+      <br>
+      <span id="uploadStatus"></span>
+    </form>
 
   
 
@@ -103,8 +107,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="./js/fileSubmit.js"></script>
 
-    <script src="https://apis.google.com/js/client.js?onload=checkAuth">
-    </script>
+    
 
 
 </body>
