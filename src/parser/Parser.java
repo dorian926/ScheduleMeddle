@@ -24,7 +24,7 @@ public class Parser {
 			// Always wrap FileReader in BufferedReader.
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-			File file = new File("/Users/king/Desktop/outFile.txt");
+			File file = new File("outFile.txt");
 
 			// if file doesnt exists, then create it
 			if (!file.exists()) {
