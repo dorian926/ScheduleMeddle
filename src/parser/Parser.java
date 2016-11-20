@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Parser {
@@ -20,6 +21,8 @@ public class Parser {
 		try {
 			// FileReader reads text files in the default encoding.
 			FileReader fileReader = new FileReader(input);
+
+			HashSet<String> track = new HashSet<String>();
 
 			// Always wrap FileReader in BufferedReader.
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -35,7 +38,11 @@ public class Parser {
 			BufferedWriter bw = new BufferedWriter(fw);
 
 			while ((line = bufferedReader.readLine()) != null) {
-				bw.append(normalizedSentence(line));
+				track.add(normalizedSentence(line));
+				// bw.append(normalizedSentence(line));
+			}
+			for (String element : track) {
+				bw.write(element);
 			}
 			// Always close files.
 			bufferedReader.close();
