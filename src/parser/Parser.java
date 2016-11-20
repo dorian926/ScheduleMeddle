@@ -13,16 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Parser {
-	public static void main(String[] arg) {
-		// Text File I Deal with
-		String fileName = "/Users/king/Desktop/testFile.txt";
-
+	public void parseFile(File input) {
 		// This will reference one line at a time
 		String line = null;
 
 		try {
 			// FileReader reads text files in the default encoding.
-			FileReader fileReader = new FileReader(fileName);
+			FileReader fileReader = new FileReader(input);
 
 			// Always wrap FileReader in BufferedReader.
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -38,26 +35,20 @@ public class Parser {
 			BufferedWriter bw = new BufferedWriter(fw);
 
 			while ((line = bufferedReader.readLine()) != null) {
-				// Files.write(file.toPath(),
-				// normalizedSentence(line).getBytes(),
-				// StandardOpenOption.APPEND);
 				bw.append(normalizedSentence(line));
-				// System.out.println("kl" + normalizedSentence(line) + "end");
-
 			}
-			// bw.write("final lol duplicate");
 			// Always close files.
 			bufferedReader.close();
 			bw.close();
 		} catch (FileNotFoundException ex) {
-			System.out.println("Unable to open file '" + fileName + "'");
+			System.out.println("Unable to open file '" + input + "'");
 		} catch (IOException ex) {
-			System.out.println("Error reading file '" + fileName + "'");
+			System.out.println("Error reading file '" + input + "'");
 
 		}
 	}
-
-	public static String normalizedSentence(String line) {
+	
+	public String normalizedSentence(String line) {
 		String[] ma = { "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
 		Map<String, String> dic = new HashMap<String, String>();
 
@@ -99,8 +90,6 @@ public class Parser {
 		}
 
 		String retValue = "";
-		boolean found2 = true;
-
 		if (does) {
 			for (int i = 0; i < words.size(); i++) {
 				for (String month : monthsA) {
@@ -108,13 +97,12 @@ public class Parser {
 						if (isNumeric(words.get(i + 1))) {
 							retValue += "(" + found + ", 2016-" + dic.get(month) + "-" + words.get(i + 1)
 									+ "T12:00:00-00:00)" + '\n';
-							System.out.println(retValue);
+							//System.out.println(retValue);
 						}
 					}
 				}
 			}
 		}
-		// System.out.println(retValue);
 		return retValue;
 
 	}
