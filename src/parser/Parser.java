@@ -47,14 +47,20 @@ public class Parser {
 
 		}
 	}
-	
+
 	public String normalizedSentence(String line) {
 		String[] ma = { "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
 		Map<String, String> dic = new HashMap<String, String>();
 
 		for (int i = 0; i < ma.length; i++) {
-			dic.put(ma[i], Integer.toString(i + 1));
+			if (i < 9) {
+				dic.put(ma[i], "0" + Integer.toString(i + 1));
+			} else {
+				dic.put(ma[i], Integer.toString(i + 1));
+			}
 		}
+
+		// System.
 
 		ArrayList<String> monthsA = new ArrayList<String>(Arrays.asList(ma));
 
@@ -95,9 +101,13 @@ public class Parser {
 				for (String month : monthsA) {
 					if (words.get(i).contains(month)) {
 						if (isNumeric(words.get(i + 1))) {
-							retValue += "(" + found + ", 2016-" + dic.get(month) + "-" + words.get(i + 1)
-									+ "T12:00:00-00:00)" + '\n';
-							//System.out.println(retValue);
+							String change = words.get(i + 1);
+							if (Integer.parseInt(change) < 10) {
+								change = "0" + change;
+							}
+							retValue += "(" + found + ", 2016-" + dic.get(month) + "-" + change + "T12:00:00-00:00)"
+									+ '\n';
+							// System.out.println(retValue);
 						}
 					}
 				}
