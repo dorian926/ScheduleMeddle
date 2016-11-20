@@ -1,0 +1,111 @@
+
+
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <ul class="w3-navbar w3-black w3-wide w3-padding-9 w3-card-2">
+    <li>
+      <a href="#home" class="w3-margin-left"><b>Schedule</b> Meddle</a>
+    </li>
+    <!-- Float links to the right. Hide them on small screens -->
+    <li class="w3-right w3-hide-small">
+      <a href="#projects" class="w3-left">Projects</a>
+      <a href="#about" class="w3-left">About</a>
+      <a href="#contact" class="w3-left w3-margin-right">Contact</a>
+    </li>
+  </ul>
+</div>
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+  <img class="w3-image" src="https://s-media-cache-ak0.pinimg.com/736x/4b/78/42/4b7842da08a77457b1839c3665aa6843.jpg" alt="Architecture" width="1500" height="850">
+  <div class="w3-display-middle w3-margin-top w3-center">
+    <h1 class="w3-xxlarge"><span class="w3-border w3-border-black w3-padding">SCH</span> <span class="w3-hide-small">MEDDLE</span></h1>
+  </div>
+</header>
+
+<!-- Page content -->
+<div class="w3-content w3-padding" style="max-width:1564px">
+
+  <!-- About Section -->
+  <div class="w3-container w3-padding-100" id="about">
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-1">About</h3>
+    <p>Schedule Meddler is a revolutionary web based application that will take any of the complicated syllbai given to you by your professors and <b><i>automatically</i></b> upload it to your Google Calendar!
+    </p>
+  </div>
+
+
+  <!-- Upload Section -->
+  <div class="w3-container w3-padding-" id="projects">
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-12">Schedule Upload</h3>
+
+
+   
+    <form id="file-form"  action="./bin/uploadAndConvert.php" method="POST" enctype="multipart/form-data"><br><!-- action="./bin/getfile.php" method="POST" enctype="multipart/form-data" --> 
+      <a href="#" class="btn btn-default" type="button" id = "chooseFile" onclick="document.getElementById('uploadedFilename').click(); return false;">Choose File</a>
+    <span id="fileName"></span>
+    <!--uploadedFilename is a hidden button -->
+      <input type="file"  name="uploadedFilename" id="uploadedFilename" style="visibility: hidden; display: none;">
+    <br>
+
+      <input type="submit" class="btn btn-primary" id="submitbtn" value="Compress File" style="margin-top:5%">
+         
+      <br>
+      <span id="uploadStatus"></span>
+      <br>
+    </form>
+    <div id="authorize-div" style="display: none">
+      <span>Authorize access to Google Calendar API</span>
+      <!--Button for the user to click to initiate auth sequence -->
+    </div>
+    <pre id="output"></pre>
+
+  
+
+
+  
+<!-- End page content -->
+</div>
+
+<!-- Google Map -->
+<div id="googleMap" class="w3-grayscale" style="width:100%;height:450px;"></div>
+
+
+<!-- Add Google Maps -->
+
+<script>
+      function initMap() {
+        var uluru = {lat: 35.910111, lng: -79.053236};
+        var map = new google.maps.Map(document.getElementById('googleMap'), {
+          zoom: 18,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9r6xS3RSpw1QcjnQYWr1LbYMZKvkllNI&callback=initMap">
+    </script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+   <script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="./js/fileSubmit.js"></script>
+
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+    </script>
+
+
+</body>
+</html>
