@@ -1,5 +1,5 @@
 
- 
+ var calendarItems; 
  $( document ).ready(function() {
    // alert( "Handler for load called." );
     var form = document.getElementById('file-form');
@@ -42,19 +42,22 @@ $( "input#uploadedFilenameDecomp" ).change(function() {
 
     xhr.send(formData);
 
-    var times; 
+    
 
   //This ajax request takes gives the file name to the server, which then executes the scripts 
   $.ajax({
         url: "bin/index.php?name="+files[0].name,
         success: function (result) {
-            times = result;
+            calendarItems = result;
         },
         async: false
     });
+    var event = "hello";
+   // alert(calendarItems);
 
-    alert(times);
-   
+    handleAuthClick(event);
+    
+
 
   });
 
@@ -124,20 +127,33 @@ $( "input#uploadedFilenameDecomp" ).change(function() {
        * appropriate message is printed.
        */
       function listUpcomingEvents() {
+        var splitarr = calendarItems.split("\n");
+      //  alert(splitarr);
+      //  alert(splitarr[0]);
+
+        for (i = 0; i < splitarr.length-1; i++) {
+          var commaloc = splitarr[i].indexOf(",");
+          var title = splitarr[i].substring(1, commaloc);
+          
+          var date = splitarr[i].substring(commaloc+2, splitarr[i].length-1);
+
+          
+          var date = date.substring(0, date.indexOf("T"));
+        //  alert( title + "  " +date);
         var event = {
-              'summary': 'Google I/O 2015',
-        'location': '800 Howard St., San Francisco, CA 94103',
-        'description': 'A chance to hear more about Google\'s developer products.',
+        'summary': title,
+        'location': '201 S. Columbia St',
+        'description': 'Your schedule from Schedele Meddler!',
         'start': {
-          'dateTime': '2016-11-19T09:00:00-07:00',
+          'dateTime': date+'T09:00:00-07:00',
           'timeZone': 'America/Los_Angeles'
         },
         'end': {
-          'dateTime': '2016-11-19T17:00:00-07:00',
+          'dateTime': date+'T12:00:00-07:00',
           'timeZone': 'America/Los_Angeles'
         },
         'recurrence': [
-          'RRULE:FREQ=DAILY;COUNT=2'
+          'RRULE:FREQ=DAILY;COUNT=1'
         ],
         
         'reminders': {
@@ -154,10 +170,11 @@ $( "input#uploadedFilenameDecomp" ).change(function() {
         'resource': event
       });
 
-request.execute(function(event) {
-  appendPre('Event created: ' + event.htmlLink);
-});
+      request.execute(function(event) {
+      appendPre('Event created: ' + event.htmlLink);
+      });
 
+    }//end for loop
 
         var request = gapi.client.calendar.events.list({
           'calendarId': 'primary',
