@@ -130,13 +130,12 @@ $( "input#uploadedFilenameDecomp" ).change(function() {
         var splitarr = calendarItems.split("\n");
       //  alert(splitarr);
       //  alert(splitarr[0]);
-
+      appendPre('Items added: ' + calendarItems);
         for (i = 0; i < splitarr.length-1; i++) {
           var commaloc = splitarr[i].indexOf(",");
           var title = splitarr[i].substring(1, commaloc);
-          
           var date = splitarr[i].substring(commaloc+2, splitarr[i].length-1);
-
+          
           
           var date = date.substring(0, date.indexOf("T"));
         //  alert( title + "  " +date);
