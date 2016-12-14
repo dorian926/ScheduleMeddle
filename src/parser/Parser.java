@@ -56,6 +56,8 @@ public class Parser {
 	}
 
 	public String normalizedSentence(String line) {
+		String [][] mn = new CSVReader("externallib/dates.csv").collectDates();
+		String[] mna = {"january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november","december"};
 		String[] ma = { "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec" };
 		Map<String, String> dic = new HashMap<String, String>();
 
@@ -70,51 +72,89 @@ public class Parser {
 		// System.
 
 		ArrayList<String> monthsA = new ArrayList<String>(Arrays.asList(ma));
+		ArrayList<String> monthsNA = new ArrayList<String>(Arrays.asList(mna));
 
 		String[] lookFor = { "exams", "exam", "final", "quiz", "midterm" };
 
-		String[] w = line.replaceAll("[^a-zA-Z0-9 ]", "").toLowerCase().split("\\s+");
+		String[] w = line.replaceAll("[^a-zA-Z0-9 ]", " ").toLowerCase().split("\\s+");
+		for(int i = 0; i < monthsNA.size(); i++) {
+			for(int j = 0; j < w.length; j++) {
+				if(w[j].equals(monthsNA.get(i))) {
+					w[j] = monthsA.get(i);
+				}
+			}
+		}
 		ArrayList<String> words = new ArrayList<String>(Arrays.asList(w));
 
+		
 		boolean does = false;
 		String found = "";
-
-		for (String month : monthsA) {
-			if (words.contains(month)) {
-				for (String key : lookFor) {
-					if (words.contains(key)) {
-						if (words.indexOf(key) != words.size() - 1) {
-							if (words.get(words.indexOf(key) + 1).equals("paper")) {
-								does = true;
-								found = key + " paper";
-								break;
+		for(int i = 0; i < mn.length;i++){
+			for(int j = 0; j < mn[i].length; j++) {
+				if(words.contains(mn[i][j])){
+					for(String key : lookFor) {
+						if (words.contains(key)) {
+							if (words.indexOf(key) != words.size() - 1) {
+								if (words.get(words.indexOf(key) + 1).equals("paper")) {
+									does = true;
+									found = key + " paper";
+									break;
+								}
+								if (words.get(words.indexOf(key) + 1).equals("review")) {
+									does = true;
+									found = key + " review";
+									break;
+								}
+								if (isNumeric(words.get(words.indexOf(key) + 1))) {
+									does = true;
+									found = key + words.get(words.indexOf(key) + 1);
+									break;
+								}
 							}
-							if (words.get(words.indexOf(key) + 1).equals("review")) {
-								does = true;
-								found = key + " review";
-								break;
-							}
+							does = true;
+							found = key;
 						}
-						does = true;
-						found = key;
 					}
 				}
 			}
 		}
 
 		String retValue = "";
+		boolean valueAcceptedThisLine = false;
 		if (does) {
 			for (int i = 0; i < words.size(); i++) {
-				for (String month : monthsA) {
-					if (words.get(i).contains(month)) {
-						if (isNumeric(words.get(i + 1))) {
-							String change = words.get(i + 1);
-							if (Integer.parseInt(change) < 10) {
-								change = "0" + change;
+				for (int j = 0; j < mn.length; j++) {
+					String availFormats = "";
+					for(int x = 0; x < mn[j].length; x++) {
+						availFormats += mn[j][x];
+					}
+					if (availFormats.contains(words.get(i))) {
+						String month = "";
+						if(j < 10) {
+							month = "0" + (j+1);
+						} else {month = "" + (j+1);}
+						if(!valueAcceptedThisLine){
+							if(i != words.size()-1) {
+								if (isNumeric(words.get(i + 1))) {
+									String change = words.get(i + 1);
+									if (Integer.parseInt(change) < 10) {
+										change = "0" + change;
+									}
+									retValue += "(" + found + ", 2016-" + month + "-" + change + "T12:00:00-00:00)"
+											+ '\n';
+									valueAcceptedThisLine = true;
+								} else if(i-1 != -1) {
+									if(isNumeric(words.get(i - 1))) {
+										String change = words.get(i - 1);
+										if (Integer.parseInt(change) < 10) {
+											change = "0" + change;
+										}
+										retValue += "(" + found + ", 2016-" + month + "-" + change + "T12:00:00-00:00)"
+												+ '\n';
+										valueAcceptedThisLine = true;
+									}
+								}
 							}
-							retValue += "(" + found + ", 2016-" + dic.get(month) + "-" + change + "T12:00:00-00:00)"
-									+ '\n';
-							// System.out.println(retValue);
 						}
 					}
 				}
@@ -124,7 +164,7 @@ public class Parser {
 
 	}
 
-	public static boolean isNumeric(String str) {
+	public boolean isNumeric(String str) {
 		try {
 			double d = Double.parseDouble(str);
 		} catch (NumberFormatException nfe) {
